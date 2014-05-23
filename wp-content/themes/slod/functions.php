@@ -1,21 +1,20 @@
 <?php
 
-function add_custom_query_var( $vars ){
-  $vars[] = "role";
-  return $vars;
-}
-add_filter( 'query_vars', 'add_custom_query_var' );
-
-$my_c = get_query_var( 'role' );
-
-print "<h1>role=".$my_c."</h1>";
-
-?>
-
-<?php
+/*
+ *function add_custom_query_var( $vars ){
+ *$vars[] = "role";
+ *return $vars;
+ *}
+ *add_filter( 'query_vars', 'add_custom_query_var' );
+ *
+ *$my_c = get_query_var( 'role' );
+ *
+ *print "<h1>role=".$my_c."</h1>";
+ */
+?><?php
 	remove_filter('template_redirect','redirect_canonical');
-?>
-<?php
+?><?php
+
 
     // menu logic
 
@@ -29,7 +28,7 @@ print "<h1>role=".$my_c."</h1>";
             )
         );
     }
-    add_action( 'init', 'register_my_menus' );
+//    add_action( 'init', 'register_my_menus' );
 
     class ik_walker extends Walker_Nav_Menu{		
         //start of the sub menu wrap
@@ -76,14 +75,53 @@ print "<h1>role=".$my_c."</h1>";
             $item_output .= $args->after;
 
             $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+            
         }
     }
 
-    wp_nav_menu( array(
+/*    wp_nav_menu( array(
         'container' => false, 
         'menu_id' => 'nav', 
         'depth' => 0,
-        'theme_location' => 'primary', 
+        'theme_location' => 'map-menu', 
         //this is the important part, we tell it to use the nav walker we just wrote
         'walker' => new ik_walker())
     );
+*/
+
+/*
+
+* find all matching posts
+    * dump them 
+        * location
+        * roles & links
+* find all matching edges
+    * dump them 
+    * post from, to 
+
+    */
+
+
+?><?php 
+
+function map_link_category_connection() {
+
+    p2p_register_connection_type( array(
+        'name' => 'outbound_node_to_node',
+        'from' => 'node',
+        'to'   => 'node',
+        'reciprocal' => true,
+        'duplicate_connections' => true,
+        'can_create_post' => false,
+        'fields' => array(
+            'track' => array(
+                'title' => 'Track',
+                'type' => 'select',
+                'values' => array( 'None', 'Citizen Science', 'Data Production', 'Climate Science', 'Weather Derivatives' )
+            )
+        ) 
+    ) );
+}
+
+add_action ('p2p_init', 'map_link_category_connection');
+?>
