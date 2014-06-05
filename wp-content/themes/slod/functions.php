@@ -12,7 +12,23 @@
  *print "<h1>role=".$my_c."</h1>";
  */
 ?><?php
-	remove_filter('template_redirect','redirect_canonical');
+
+remove_filter('template_redirect','redirect_canonical');
+add_action('wp_head', 'slod_map_script');
+add_action('wp_enqueue_scripts', 'slod_scripts' );
+
+function slod_scripts() {
+//	wp_enqueue_style( 'style-name', get_stylesheet_uri() );
+	wp_enqueue_script( 'raphael', get_stylesheet_directory_uri() . '/static/raphael-min.js', array(), '1.0.0', true );
+	wp_enqueue_script( 'slod', get_stylesheet_directory_uri() . '/static/slod.js', array(), '1.0.0', true );
+}
+function slod_map_script() {
+    echo('<script type="text/javascript">');
+    // get a list of all nodes
+    get_template_part( 'partials/mapjson' );
+    echo('</script>');
+}
+
 ?><?php
 
 
@@ -110,7 +126,7 @@ function map_link_category_connection() {
         'name' => 'outbound_node_to_node',
         'from' => 'node',
         'to'   => 'node',
-        'reciprocal' => true,
+        'reciprocal' => false,
         'duplicate_connections' => true,
         'can_create_post' => false,
         'fields' => array(
