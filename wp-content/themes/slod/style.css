@@ -12,3 +12,19 @@
  
 /* =Theme customization starts here
 ------------------------------------------------------- */
+
+p.map.CitizenScience {
+    color:red;
+}
+p.map.ClimateScience {
+    color:lime;
+}
+p.map.None {
+    color:silver;
+}
+p.map.DataProduction {
+    color:magenta;
+}
+p.map.WeatherDerivatives {
+    color:green;
+}

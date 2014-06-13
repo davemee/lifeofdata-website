@@ -58,7 +58,7 @@ if ( $__slod_mapjson_query->have_posts() ) {
             }
         }
         if($node["category"]==="") {
-            $node["category"]="none";
+            $node["category"]="None";
         }
         // get our edges
         $node["edges"]=array();
